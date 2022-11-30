@@ -2,6 +2,7 @@ package com.example.coursework;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -22,20 +23,21 @@ import org.json.JSONObject;
 
 public class MainActivity extends AppCompatActivity {
 
-    private TextView mTextViewResult;
     private RequestQueue mQueue;
     private EditText mEnterArtistResult;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        mTextViewResult = findViewById(R.id.text_view_result);
         Button buttonParse = findViewById(R.id.button_parse);
         mQueue = Volley.newRequestQueue(this);
 
         mEnterArtistResult = (EditText)findViewById(R.id.enterArtist);
+
+        Button buttonRec = findViewById(R.id.button_rec);
 
         buttonParse.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -43,6 +45,19 @@ public class MainActivity extends AppCompatActivity {
                 jsonParse();
             }
         });
+
+        buttonRec.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                openMovieRec();
+            }
+        });
+
+    }
+
+    public void openMovieRec() {
+        Intent openMovieRec = new Intent(this, MovieRecPage.class);
+        startActivity(openMovieRec);
     }
 
     private void jsonParse() {
@@ -60,16 +75,13 @@ public class MainActivity extends AppCompatActivity {
                             JSONArray jsonArray = jsonObject.getJSONArray("Results");
                             Log.println(Log.DEBUG, "debug", "=== API TEST 4 ===");
 
-                            for (int i = 0; i < jsonArray.length(); i++) {
-                                JSONObject movie = jsonArray.getJSONObject(i);
-
-                                String name = movie.getString("Name");
-                                String type = movie.getString("Type");
-
-                                mTextViewResult.append(name + ", " + type + "\n\n");
-                            }
-                        } catch (JSONException e) {
+                            Intent searchResults = new Intent(MainActivity.this, MovieRecPage.class);
+                            searchResults.putExtra("search_results", jsonArray.toString());
                             Log.println(Log.DEBUG, "debug", "=== API TEST 5 ===");
+                            openMovieRec();
+
+                        } catch (JSONException e) {
+                            Log.println(Log.DEBUG, "debug", "=== API TEST 6 ===");
                             e.printStackTrace();
                         }
                     }
