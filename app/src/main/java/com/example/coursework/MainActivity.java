@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import com.android.volley.Request;
@@ -23,6 +24,7 @@ public class MainActivity extends AppCompatActivity {
 
     private TextView mTextViewResult;
     private RequestQueue mQueue;
+    private EditText mEnterArtistResult;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,8 +33,9 @@ public class MainActivity extends AppCompatActivity {
 
         mTextViewResult = findViewById(R.id.text_view_result);
         Button buttonParse = findViewById(R.id.button_parse);
-
         mQueue = Volley.newRequestQueue(this);
+
+        mEnterArtistResult = (EditText)findViewById(R.id.enterArtist);
 
         buttonParse.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -43,7 +46,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void jsonParse() {
-        String url = "https://tastedive.com/api/similar?q=Drake&k=445164-RoryCame-WLB5WH2V";
+        String key = "445164-RoryCame-WLB5WH2V";
+        String url = "https://tastedive.com/api/similar?info=1&q=" + mEnterArtistResult.getText() + "&k=" + key;
         Log.println(Log.DEBUG, "debug", "=== API TEST 1 ===");
         JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, url, null,
                 new Response.Listener<JSONObject>() {
