@@ -36,7 +36,7 @@
         android:layout_width="218dp"
         android:layout_height="57dp"
         android:ems="10"
-        android:hint="Enter Artist"
+        android:hint="Enter Movie"
         android:inputType="textPersonName"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
