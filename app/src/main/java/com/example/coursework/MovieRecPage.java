@@ -1,12 +1,11 @@
 package com.example.coursework;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -14,17 +13,24 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
+import com.google.android.youtube.player.YouTubeBaseActivity;
+import com.google.android.youtube.player.YouTubeInitializationResult;
+import com.google.android.youtube.player.YouTubePlayer;
+import com.google.android.youtube.player.YouTubePlayerView;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-public class MovieRecPage extends AppCompatActivity {
+public class MovieRecPage extends YouTubeBaseActivity {
 
     private TextView mTextViewResult;
+    private TextView mtext_view_movie_name;
     private RequestQueue mQueue;
     private int counter = 0;
     private JSONArray jsonArray;
+
+    YouTubePlayerView youTubePlayerView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,8 +39,10 @@ public class MovieRecPage extends AppCompatActivity {
 
         mQueue = Volley.newRequestQueue(this);
         mTextViewResult = findViewById(R.id.text_view_result);
+        mtext_view_movie_name = findViewById(R.id.text_view_movie_name);
         Button buttonNext = findViewById(R.id.button_next);
         Button buttonBack = findViewById(R.id.button_back);
+        youTubePlayerView = findViewById(R.id.youtube_player_view);
 
         Bundle movieResults = getIntent().getExtras();
         String userInput = movieResults.getString("user_input");
@@ -126,7 +134,25 @@ public class MovieRecPage extends AppCompatActivity {
         String movieName = movie.getString("Name");
         String movieDescription = movie.getString("wTeaser");
         String movieTrailer = movie.getString("yUrl");
-        mTextViewResult.setText(movieName + ", " + movieDescription + movieTrailer + "\n\n");
+        mtext_view_movie_name.setText(movieName);
+        // mTextViewResult.setText(movieDescription + movieTrailer + "\n\n");
         Log.i("====== DEBUG ", "LOG 6 - RESULTS HOPEFULLY DISPLAYED ======");
+        playTrailer(movieTrailer);
+    }
+
+    public void playTrailer(String movieTrailer){
+        YouTubePlayer.OnInitializedListener listener = new YouTubePlayer.OnInitializedListener() {
+            @Override
+            public void onInitializationSuccess(YouTubePlayer.Provider provider, YouTubePlayer youTubePlayer, boolean b) {
+                youTubePlayer.cueVideo(movieTrailer.substring(movieTrailer.lastIndexOf("/") + 1));
+                youTubePlayer.play();
+            }
+
+            @Override
+            public void onInitializationFailure(YouTubePlayer.Provider provider, YouTubeInitializationResult youTubeInitializationResult) {
+                Toast.makeText(getApplicationContext(), "INITIALIZATION FAILED", Toast.LENGTH_SHORT).show();
+            }
+        };
+        youTubePlayerView.initialize("AIzaSyCFJyQDYDHxlcdkdlDCCwhp7FjyFUivQGY", listener);
     }
 }

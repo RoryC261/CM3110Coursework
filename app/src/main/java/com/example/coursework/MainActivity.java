@@ -23,7 +23,7 @@ import org.json.JSONObject;
 
 public class MainActivity extends AppCompatActivity {
 
-    private EditText mEnterArtistResult;
+    private EditText mEnterMovieResult;
 
 
     @Override
@@ -33,9 +33,7 @@ public class MainActivity extends AppCompatActivity {
 
         Button buttonParse = findViewById(R.id.button_parse);
 
-        mEnterArtistResult = (EditText)findViewById(R.id.enterArtist);
-
-        Button buttonRec = findViewById(R.id.button_rec);
+        mEnterMovieResult = (EditText)findViewById(R.id.enterMovie);
 
         buttonParse.setOnClickListener(new View.OnClickListener() {
             // STOP CONTROL Z HERE PLS
@@ -49,7 +47,7 @@ public class MainActivity extends AppCompatActivity {
     public void openMovieRec() {
         Log.i("====== DEBUG ", "LOG 1 - BUTTON LISTENER ======");
         Intent openMovieRec = new Intent(this, MovieRecPage.class);
-        openMovieRec.putExtra("user_input", mEnterArtistResult.getText().toString());
+        openMovieRec.putExtra("user_input", mEnterMovieResult.getText().toString());
         startActivity(openMovieRec);
     }
 }
