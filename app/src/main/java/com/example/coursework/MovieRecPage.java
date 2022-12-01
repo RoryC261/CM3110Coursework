@@ -34,6 +34,7 @@ public class MovieRecPage extends AppCompatActivity {
         mQueue = Volley.newRequestQueue(this);
         mTextViewResult = findViewById(R.id.text_view_result);
         Button buttonNext = findViewById(R.id.button_next);
+        Button buttonBack = findViewById(R.id.button_back);
 
         Bundle movieResults = getIntent().getExtras();
         String userInput = movieResults.getString("user_input");
@@ -47,10 +48,12 @@ public class MovieRecPage extends AppCompatActivity {
                     @Override
                     public void onResponse(JSONObject response) {
                         try {
+                            int firstCounter = 0;
+                            buttonBack.setClickable(false);
                             JSONObject jsonObject = response.getJSONObject("Similar");
                             jsonArray = jsonObject.getJSONArray("Results");
 
-                            JSONObject movie = jsonArray.getJSONObject(getCounter());
+                            JSONObject movie = jsonArray.getJSONObject(firstCounter);
 
                             nextSong();
                             Log.i("====== DEBUG ", "LOG 7 - COUNTER INITIALLY INCREMENTED ======");
@@ -71,21 +74,49 @@ public class MovieRecPage extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 try {
-                    Log.i("====== DEBUG ", "LOG 4 - WE ARE IN THE EVENT LISTENER ======");
-                    nextSong();
-                    Log.i("====== DEBUG ", "LOG 8 - GOT PAST INCREMENTATION ======");
+                    if (getCounter() < jsonArray.length() - 1) {
+                        Log.i("====== DEBUG ", "LOG 4 - WE ARE IN THE EVENT LISTENER ======");
+                        setCounter(1);
+                        nextSong();
+                        Log.i("====== DEBUG ", "LOG 8 - GOT PAST INCREMENTATION ======");
+                        buttonBack.setClickable(true);
+                    } if (getCounter() >= jsonArray.length() - 1){
+                        buttonNext.setClickable(false);
+                    }
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
             }
         });
 
+        buttonBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Log.i("====== DEBUG ", "LOG 11 - WE ARE IN BACK SONGTHE EVENT LISTENER ======");
+                try {
+                    if (getCounter() > 0) {
+                        setCounter(-1);
+                        nextSong();
+                        buttonNext.setClickable(true);
+                    } if (getCounter() <= 0) {
+                        buttonBack.setClickable(false);
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                Log.i("====== DEBUG ", "LOG 12 - GOT PAST INCREMENTATION BACK SONG ======");
+            }
+        });
+
+
+
     }
-    private int getCounter(){
+
+    private int getCounter() {
         return counter;
     }
 
-    private void setCounter(int value){
+    private void setCounter(int value) {
         counter = counter + value;
     }
 
@@ -96,7 +127,6 @@ public class MovieRecPage extends AppCompatActivity {
         String movieDescription = movie.getString("wTeaser");
         String movieTrailer = movie.getString("yUrl");
         mTextViewResult.setText(movieName + ", " + movieDescription + movieTrailer + "\n\n");
-        setCounter(1);
         Log.i("====== DEBUG ", "LOG 6 - RESULTS HOPEFULLY DISPLAYED ======");
     }
 }
