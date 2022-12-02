@@ -1,5 +1,6 @@
 package com.example.coursework;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -22,6 +23,8 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
+
 public class MovieRecPage extends YouTubeBaseActivity {
 
     private TextView mTextViewResult;
@@ -30,7 +33,7 @@ public class MovieRecPage extends YouTubeBaseActivity {
     private int counter = 0;
     private JSONArray jsonArray;
 
-    YouTubePlayerView youTubePlayerView;
+    YouTubePlayerView myouTubePlayerView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,7 +45,8 @@ public class MovieRecPage extends YouTubeBaseActivity {
         mtext_view_movie_name = findViewById(R.id.text_view_movie_name);
         Button buttonNext = findViewById(R.id.button_next);
         Button buttonBack = findViewById(R.id.button_back);
-        youTubePlayerView = findViewById(R.id.youtube_player_view);
+        Button buttonBackToSearch = findViewById(R.id.button_back_to_search);
+        // myouTubePlayerView = findViewById(R.id.youtube_player_view);
 
         Bundle movieResults = getIntent().getExtras();
         String userInput = movieResults.getString("user_input");
@@ -50,6 +54,14 @@ public class MovieRecPage extends YouTubeBaseActivity {
 
         String key = "445164-RoryCame-WLB5WH2V";
         String url = "https://tastedive.com/api/similar?info=1&q=" + userInput + "&k=" + key;
+
+        buttonBackToSearch.setOnClickListener(new View.OnClickListener() {
+            // STOP CONTROL Z HERE PLS
+            @Override
+            public void onClick(View view) {
+                openBackToSearch();
+            }
+        });
 
         JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, url, null,
                 new Response.Listener<JSONObject>() {
@@ -61,7 +73,9 @@ public class MovieRecPage extends YouTubeBaseActivity {
                             JSONObject jsonObject = response.getJSONObject("Similar");
                             jsonArray = jsonObject.getJSONArray("Results");
 
+
                             JSONObject movie = jsonArray.getJSONObject(firstCounter);
+                            String movieTrailer = movie.getString("yUrl");
 
                             nextSong();
                             Log.i("====== DEBUG ", "LOG 7 - COUNTER INITIALLY INCREMENTED ======");
@@ -137,22 +151,30 @@ public class MovieRecPage extends YouTubeBaseActivity {
         mtext_view_movie_name.setText(movieName);
         // mTextViewResult.setText(movieDescription + movieTrailer + "\n\n");
         Log.i("====== DEBUG ", "LOG 6 - RESULTS HOPEFULLY DISPLAYED ======");
-        playTrailer(movieTrailer);
     }
 
-    public void playTrailer(String movieTrailer){
+    public void openBackToSearch(){
+        Intent openMain = new Intent(this, MainActivity.class);
+        startActivity(openMain);
+    }
+
+    /* // TRY FIX LATER THIS IS FUCKED WILL ATTEMPT LATER
+    public void queueUrls(ArrayList<String> urls){
         YouTubePlayer.OnInitializedListener listener = new YouTubePlayer.OnInitializedListener() {
             @Override
             public void onInitializationSuccess(YouTubePlayer.Provider provider, YouTubePlayer youTubePlayer, boolean b) {
-                youTubePlayer.cueVideo(movieTrailer.substring(movieTrailer.lastIndexOf("/") + 1));
-                youTubePlayer.play();
+                for (String element : urls){
+                    youTubePlayer.cueVideo(element.substring(element.lastIndexOf("/") + 1));
+                }
             }
 
             @Override
             public void onInitializationFailure(YouTubePlayer.Provider provider, YouTubeInitializationResult youTubeInitializationResult) {
                 Toast.makeText(getApplicationContext(), "INITIALIZATION FAILED", Toast.LENGTH_SHORT).show();
             }
+
         };
-        youTubePlayerView.initialize("AIzaSyCFJyQDYDHxlcdkdlDCCwhp7FjyFUivQGY", listener);
+        myouTubePlayerView.initialize("AIzaSyCFJyQDYDHxlcdkdlDCCwhp7FjyFUivQGY", listener);
     }
+    */
 }
