@@ -69,7 +69,7 @@
         app:layout_constraintHorizontal_bias="0.333"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.144" />
+        app:layout_constraintVertical_bias="0.004" />
 
     <Button
         android:id="@+id/button_back_to_search"
@@ -93,6 +93,16 @@
         app:layout_constraintTop_toTopOf="parent"
         android:layout_height="wrap_content"/>
     -->
+
+    <WebView
+        android:id="@+id/videoview"
+        android:layout_width="391dp"
+        android:layout_height="409dp"
+        android:layout_marginStart="8dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.413" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

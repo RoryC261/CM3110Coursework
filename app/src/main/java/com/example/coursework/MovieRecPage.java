@@ -1,12 +1,18 @@
 package com.example.coursework;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.webkit.WebSettings;
+import android.webkit.WebView;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.webkit.WebView;
+import android.webkit.WebView;
+import android.webkit.WebViewClient;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -23,6 +29,8 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.net.URI;
+import java.net.URL;
 import java.util.ArrayList;
 
 public class MovieRecPage extends YouTubeBaseActivity {
@@ -32,6 +40,7 @@ public class MovieRecPage extends YouTubeBaseActivity {
     private RequestQueue mQueue;
     private int counter = 0;
     private JSONArray jsonArray;
+    private WebView mWebView;
 
     YouTubePlayerView myouTubePlayerView;
 
@@ -54,6 +63,8 @@ public class MovieRecPage extends YouTubeBaseActivity {
 
         String key = "445164-RoryCame-WLB5WH2V";
         String url = "https://tastedive.com/api/similar?info=1&q=" + userInput + "&k=" + key;
+
+        mWebView =(WebView)findViewById(R.id.videoview);
 
         buttonBackToSearch.setOnClickListener(new View.OnClickListener() {
             // STOP CONTROL Z HERE PLS
@@ -151,6 +162,9 @@ public class MovieRecPage extends YouTubeBaseActivity {
         mtext_view_movie_name.setText(movieName);
         // mTextViewResult.setText(movieDescription + movieTrailer + "\n\n");
         Log.i("====== DEBUG ", "LOG 6 - RESULTS HOPEFULLY DISPLAYED ======");
+        // startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("http://www.youtube.com/watch?v=Hxy8BZGQ5Jo")));
+        playVideo(movieTrailer);
+
     }
 
     public void openBackToSearch(){
@@ -177,4 +191,17 @@ public class MovieRecPage extends YouTubeBaseActivity {
         myouTubePlayerView.initialize("AIzaSyCFJyQDYDHxlcdkdlDCCwhp7FjyFUivQGY", listener);
     }
     */
+
+    public void playVideo(String movieTrailer){
+        String videoStr = "<html><body>Promo video<br><iframe width=\"420\" height=\"315\" src=\"" + movieTrailer + "\" frameborder=\"0\" allowfullscreen></iframe></body></html>";
+        mWebView.setWebViewClient(new WebViewClient() {
+            @Override
+            public boolean shouldOverrideUrlLoading(WebView view, String url) {
+                return false;
+            }
+        });
+        WebSettings ws = mWebView.getSettings();
+        ((WebSettings) ws).setJavaScriptEnabled(true);
+        mWebView.loadData(videoStr, "text/html", "utf-8");
+    }
 }
