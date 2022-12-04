@@ -26,4 +26,5 @@ public class MovieViewmodel extends AndroidViewModel {
         repository.insert(movie);
     }
 
+    public void delete(Movie movie) { repository.delete(movie);}
 }
