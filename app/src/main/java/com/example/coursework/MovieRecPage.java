@@ -33,7 +33,17 @@ import java.net.URI;
 import java.net.URL;
 import java.util.ArrayList;
 
-public class MovieRecPage extends YouTubeBaseActivity {
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.LifecycleOwner;
+import androidx.lifecycle.ViewModel;
+import androidx.lifecycle.ViewModelProvider;
+import androidx.lifecycle.ViewModelProviders;
+import androidx.room.Room;
+import java.util.ArrayList;
+import java.util.List;
+
+public class MovieRecPage extends AppCompatActivity {
 
     private TextView mTextViewResult;
     private TextView mtext_view_movie_name;
@@ -41,13 +51,15 @@ public class MovieRecPage extends YouTubeBaseActivity {
     private int counter = 0;
     private JSONArray jsonArray;
     private WebView mWebView;
+    private Button buttonFavourite;
 
-    YouTubePlayerView myouTubePlayerView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_movie_rec_page);
+
+        MovieViewmodel viewmodel = ViewModelProviders.of(this).get(MovieViewmodel.class);
 
         mQueue = Volley.newRequestQueue(this);
         mTextViewResult = findViewById(R.id.text_view_result);
@@ -55,7 +67,7 @@ public class MovieRecPage extends YouTubeBaseActivity {
         Button buttonNext = findViewById(R.id.button_next);
         Button buttonBack = findViewById(R.id.button_back);
         Button buttonBackToSearch = findViewById(R.id.button_back_to_search);
-        // myouTubePlayerView = findViewById(R.id.youtube_player_view);
+        buttonFavourite = findViewById(R.id.button_favourite);
 
         Bundle movieResults = getIntent().getExtras();
         String userInput = movieResults.getString("user_input");
@@ -67,7 +79,6 @@ public class MovieRecPage extends YouTubeBaseActivity {
         mWebView =(WebView)findViewById(R.id.videoview);
 
         buttonBackToSearch.setOnClickListener(new View.OnClickListener() {
-            // STOP CONTROL Z HERE PLS
             @Override
             public void onClick(View view) {
                 openBackToSearch();
@@ -86,7 +97,6 @@ public class MovieRecPage extends YouTubeBaseActivity {
 
 
                             JSONObject movie = jsonArray.getJSONObject(firstCounter);
-                            String movieTrailer = movie.getString("yUrl");
 
                             nextSong();
                             Log.i("====== DEBUG ", "LOG 7 - COUNTER INITIALLY INCREMENTED ======");
@@ -141,7 +151,28 @@ public class MovieRecPage extends YouTubeBaseActivity {
             }
         });
 
+        buttonFavourite.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                try {
+                    JSONObject movie = jsonArray.getJSONObject(getCounter());
+                    String movieName = movie.getString("Name");
+                    String movieDescription = movie.getString("wTeaser");
+                    String movieTrailer = movie.getString("yUrl");
+                    viewmodel.insertMovie(new Movie(movieName, movieDescription, movieTrailer));
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
 
+        viewmodel.getAllMovies().observe((LifecycleOwner) this, movieList -> {
+            Log.d("Movies", String.valueOf(movieList.size()));
+
+            for (Movie movies: movieList){
+                Log.d("Movies", movies.movieName + ", " + movies.movieDescription + ", " + movies.movieUrl);
+            }
+        });
 
     }
 
@@ -153,6 +184,10 @@ public class MovieRecPage extends YouTubeBaseActivity {
         counter = counter + value;
     }
 
+    private Button getButtonFavourite(){
+        return buttonFavourite;
+    }
+
     public void nextSong() throws JSONException {
         Log.i("====== DEBUG ", "LOG 5 - WE ARE SETTING NEW RESULTS TO BE DISPLAYED AFTER BUTTON PRESSED ======");
         JSONObject movie = jsonArray.getJSONObject(getCounter());
@@ -162,7 +197,6 @@ public class MovieRecPage extends YouTubeBaseActivity {
         mtext_view_movie_name.setText(movieName);
         // mTextViewResult.setText(movieDescription + movieTrailer + "\n\n");
         Log.i("====== DEBUG ", "LOG 6 - RESULTS HOPEFULLY DISPLAYED ======");
-        // startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("http://www.youtube.com/watch?v=Hxy8BZGQ5Jo")));
         playVideo(movieTrailer);
 
     }
@@ -171,26 +205,6 @@ public class MovieRecPage extends YouTubeBaseActivity {
         Intent openMain = new Intent(this, MainActivity.class);
         startActivity(openMain);
     }
-
-    /* // TRY FIX LATER THIS IS FUCKED WILL ATTEMPT LATER
-    public void queueUrls(ArrayList<String> urls){
-        YouTubePlayer.OnInitializedListener listener = new YouTubePlayer.OnInitializedListener() {
-            @Override
-            public void onInitializationSuccess(YouTubePlayer.Provider provider, YouTubePlayer youTubePlayer, boolean b) {
-                for (String element : urls){
-                    youTubePlayer.cueVideo(element.substring(element.lastIndexOf("/") + 1));
-                }
-            }
-
-            @Override
-            public void onInitializationFailure(YouTubePlayer.Provider provider, YouTubeInitializationResult youTubeInitializationResult) {
-                Toast.makeText(getApplicationContext(), "INITIALIZATION FAILED", Toast.LENGTH_SHORT).show();
-            }
-
-        };
-        myouTubePlayerView.initialize("AIzaSyCFJyQDYDHxlcdkdlDCCwhp7FjyFUivQGY", listener);
-    }
-    */
 
     public void playVideo(String movieTrailer){
         String videoStr = "<html><body>Promo video<br><iframe width=\"420\" height=\"315\" src=\"" + movieTrailer + "\" frameborder=\"0\" allowfullscreen></iframe></body></html>";

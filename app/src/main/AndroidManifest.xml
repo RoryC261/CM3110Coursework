@@ -6,7 +6,7 @@
 
     <queries>
         <intent>
-            <action android:name="com.google.android.youtube.api.service.START"/>
+            <action android:name="com.google.android.youtube.api.service.START" />
         </intent>
     </queries>
 
@@ -20,6 +20,13 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Coursework"
         tools:targetApi="31">
+        <activity
+            android:name=".MovieFavourites"
+            android:exported="false">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
         <activity
             android:name=".MovieRecPage"
             android:exported="false">

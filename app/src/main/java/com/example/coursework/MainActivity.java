@@ -32,6 +32,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         Button buttonParse = findViewById(R.id.button_parse);
+        Button buttonMovieFav = findViewById(R.id.button_movie_fav);
 
         mEnterMovieResult = (EditText)findViewById(R.id.enterMovie);
 
@@ -42,6 +43,13 @@ public class MainActivity extends AppCompatActivity {
                 openMovieRec();
             }
         });
+
+        buttonMovieFav.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                openMovieFav();
+            }
+        });
     }
 
     public void openMovieRec() {
@@ -49,5 +57,10 @@ public class MainActivity extends AppCompatActivity {
         Intent openMovieRec = new Intent(this, MovieRecPage.class);
         openMovieRec.putExtra("user_input", mEnterMovieResult.getText().toString());
         startActivity(openMovieRec);
+    }
+
+    public void openMovieFav(){
+        Intent openMovieFav= new Intent(this, MovieFavourites.class);
+        startActivity(openMovieFav);
     }
 }
