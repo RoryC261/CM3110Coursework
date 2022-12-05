@@ -26,6 +26,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.ViewModelProviders;
 
+import java.util.ArrayList;
+
 public class MovieRecPage extends AppCompatActivity {
 
     private TextView mTextViewResult;
@@ -36,7 +38,7 @@ public class MovieRecPage extends AppCompatActivity {
     private WebView mWebView;
     private Button buttonFavourite;
     private Button buttonGoToFavourites;
-
+    private ArrayList<Boolean> isFavourited = new ArrayList<Boolean>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -87,8 +89,11 @@ public class MovieRecPage extends AppCompatActivity {
                             JSONObject jsonObject = response.getJSONObject("Similar");
                             jsonArray = jsonObject.getJSONArray("Results");
 
-
                             JSONObject movie = jsonArray.getJSONObject(firstCounter);
+                            for (int i = 0; i< movie.length(); i++) {
+                                isFavourited.add(Boolean.FALSE);
+                                Log.d("DEBUG", String.valueOf(isFavourited.get(i)));
+                            }
 
                             nextSong();
                         } catch (JSONException e) {
@@ -152,6 +157,8 @@ public class MovieRecPage extends AppCompatActivity {
                     String movieDescription = movie.getString("wTeaser");
                     String movieTrailer = movie.getString("yUrl");
                     viewmodel.insertMovie(new Movie(movieName, movieDescription, movieTrailer));
+                    getIsFavourited().set(getCounter(), true);
+                    buttonFavourite.setClickable(false);
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -180,7 +187,17 @@ public class MovieRecPage extends AppCompatActivity {
         return buttonFavourite;
     }
 
+    private ArrayList<Boolean> getIsFavourited(){
+        return isFavourited;
+    }
+
     public void nextSong() throws JSONException {
+        Log.d("DEBUG", String.valueOf(isFavourited.get(getCounter())));
+        if (getIsFavourited().get(getCounter()) == true) {
+            getButtonFavourite().setClickable(false);
+        } else {
+            getButtonFavourite().setClickable(true);
+        }
         JSONObject movie = jsonArray.getJSONObject(getCounter());
         String movieName = movie.getString("Name");
         String movieDescription = movie.getString("wTeaser");

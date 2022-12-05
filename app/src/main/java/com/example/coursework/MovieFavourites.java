@@ -16,6 +16,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.style.TtsSpan;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
@@ -23,7 +24,10 @@ import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MovieFavourites extends AppCompatActivity {
+public class MovieFavourites extends AppCompatActivity{
+
+    private MovieViewmodel viewmodel;
+    private Movie currentMovie;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,7 +61,7 @@ public class MovieFavourites extends AppCompatActivity {
 
          */
 
-        MovieViewmodel viewmodel = ViewModelProviders.of(this).get(MovieViewmodel.class);
+        viewmodel = ViewModelProviders.of(this).get(MovieViewmodel.class);
         viewmodel.getAllMovies().observe(this, new Observer<List<Movie>>() {
             @Override
             public void onChanged(List<Movie> movies) {
@@ -76,18 +80,30 @@ public class MovieFavourites extends AppCompatActivity {
             public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
                 viewmodel.delete(adapter.getMovieAt(viewHolder.getAdapterPosition()));
             }
+
         }).attachToRecyclerView(recyclerView);
 
+        adapter.setOnMovieClickListener(new MovieAdapter.OnMovieClickListener() {
+            @Override
+            public void onMovieClick(Movie movie) {
+                Log.d("DEBUG", "ITEM CLICKED");
+                currentMovie = adapter.getMovie();
+                openMovieInfo();
+            }
+        });
     }
+
 
     public void openBackToSearch(){
         Intent openMain = new Intent(this, MainActivity.class);
         startActivity(openMain);
     }
 
-    public void openBackToRec(){
-        Intent openRec = new Intent(this, MovieRecPage.class);
-        startActivity(openRec);
+    public void openMovieInfo(){
+        Intent openInfo = new Intent(this, MovieInfo.class);
+        openInfo.putExtra("MOVIE_NAME", currentMovie.movieName);
+        openInfo.putExtra("MOVIE_DESCRIPTION", currentMovie.movieDescription);
+        openInfo.putExtra("MOVIE_URL", currentMovie.movieUrl);
+        startActivity(openInfo);
     }
-
 }

@@ -16,14 +16,15 @@
 
     <Button
         android:id="@+id/button_back_to_search"
-        android:layout_width="448dp"
-        android:layout_height="53dp"
+        android:layout_width="193dp"
+        android:layout_height="38dp"
         android:background="@drawable/custom_button"
         android:padding="10dp"
         android:text="Back To Search"
         android:textAllCaps="false"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent" />
 
     <!--

@@ -1,5 +1,7 @@
 package com.example.coursework;
 
+import android.content.Intent;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,6 +19,8 @@ import java.util.List;
 public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieHolder> {
 
     private List<Movie> movies = new ArrayList<>();
+    private OnMovieClickListener listener;
+    private Movie currentMovie;
 
     @NonNull
     @Override
@@ -28,8 +32,12 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieHolder>
 
     @Override
     public void onBindViewHolder(@NonNull MovieHolder holder, int position) {
-        Movie currentMovie = movies.get(position);
+        currentMovie = movies.get(position);
         holder.textViewMovieName.setText(currentMovie.movieName);
+    }
+
+    public Movie getMovie(){
+        return currentMovie;
     }
 
     @Override
@@ -53,6 +61,26 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieHolder>
         public MovieHolder(@NonNull View itemView) {
             super(itemView);
             textViewMovieName = itemView.findViewById(R.id.text_view_movie_name);
+
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    int position = getAdapterPosition();
+                    if (listener != null && position != RecyclerView.NO_POSITION) {
+                        listener.onMovieClick(movies.get(position));
+                    }
+                }
+            });
+
         }
     }
+
+    public interface OnMovieClickListener {
+        void onMovieClick(Movie movie);
+    }
+
+    public void setOnMovieClickListener(OnMovieClickListener listener) {
+        this.listener = listener;
+    }
+
 }
