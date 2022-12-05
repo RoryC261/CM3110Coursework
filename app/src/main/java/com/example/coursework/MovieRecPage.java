@@ -1,7 +1,6 @@
 package com.example.coursework;
 
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -9,9 +8,6 @@ import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
-import android.webkit.WebView;
-import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
 import com.android.volley.Request;
@@ -20,28 +16,15 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
-import com.google.android.youtube.player.YouTubeBaseActivity;
-import com.google.android.youtube.player.YouTubeInitializationResult;
-import com.google.android.youtube.player.YouTubePlayer;
-import com.google.android.youtube.player.YouTubePlayerView;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.net.URI;
-import java.net.URL;
-import java.util.ArrayList;
-
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.LifecycleOwner;
-import androidx.lifecycle.ViewModel;
-import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelProviders;
-import androidx.room.Room;
-import java.util.ArrayList;
-import java.util.List;
 
 public class MovieRecPage extends AppCompatActivity {
 
@@ -52,6 +35,7 @@ public class MovieRecPage extends AppCompatActivity {
     private JSONArray jsonArray;
     private WebView mWebView;
     private Button buttonFavourite;
+    private Button buttonGoToFavourites;
 
 
     @Override
@@ -68,20 +52,28 @@ public class MovieRecPage extends AppCompatActivity {
         Button buttonBack = findViewById(R.id.button_back);
         Button buttonBackToSearch = findViewById(R.id.button_back_to_search);
         buttonFavourite = findViewById(R.id.button_favourite);
+        buttonGoToFavourites = findViewById(R.id.button_movie_fav);
 
         Bundle movieResults = getIntent().getExtras();
         String userInput = movieResults.getString("user_input");
-        Log.i("====== DEBUG ", "LOG 2 - INTENT GET() IS NOT THROWING ERROR ======");
 
         String key = "445164-RoryCame-WLB5WH2V";
         String url = "https://tastedive.com/api/similar?info=1&q=" + userInput + "&k=" + key;
 
         mWebView =(WebView)findViewById(R.id.videoview);
+        // mWebView.setBackgroundColor(Color.TRANSPARENT);
 
         buttonBackToSearch.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 openBackToSearch();
+            }
+        });
+
+        buttonGoToFavourites.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                openFavourites();
             }
         });
 
@@ -99,10 +91,14 @@ public class MovieRecPage extends AppCompatActivity {
                             JSONObject movie = jsonArray.getJSONObject(firstCounter);
 
                             nextSong();
-                            Log.i("====== DEBUG ", "LOG 7 - COUNTER INITIALLY INCREMENTED ======");
-                            Log.i("====== DEBUG ", "LOG 3 - API RESULT IS INITIALLY DISPLAYED ======");
                         } catch (JSONException e) {
                             e.printStackTrace();
+                            mtext_view_movie_name.setText(":( No results found, Are you sure that's a movie?");
+                            buttonBack.setVisibility(View.GONE);
+                            buttonNext.setVisibility(View.GONE);
+                            buttonFavourite.setVisibility(View.GONE);
+
+
                         }
                     }
                 }, new Response.ErrorListener() {
@@ -118,10 +114,8 @@ public class MovieRecPage extends AppCompatActivity {
             public void onClick(View view) {
                 try {
                     if (getCounter() < jsonArray.length() - 1) {
-                        Log.i("====== DEBUG ", "LOG 4 - WE ARE IN THE EVENT LISTENER ======");
                         setCounter(1);
                         nextSong();
-                        Log.i("====== DEBUG ", "LOG 8 - GOT PAST INCREMENTATION ======");
                         buttonBack.setClickable(true);
                     } if (getCounter() >= jsonArray.length() - 1){
                         buttonNext.setClickable(false);
@@ -135,7 +129,6 @@ public class MovieRecPage extends AppCompatActivity {
         buttonBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Log.i("====== DEBUG ", "LOG 11 - WE ARE IN BACK SONGTHE EVENT LISTENER ======");
                 try {
                     if (getCounter() > 0) {
                         setCounter(-1);
@@ -147,7 +140,6 @@ public class MovieRecPage extends AppCompatActivity {
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-                Log.i("====== DEBUG ", "LOG 12 - GOT PAST INCREMENTATION BACK SONG ======");
             }
         });
 
@@ -189,14 +181,12 @@ public class MovieRecPage extends AppCompatActivity {
     }
 
     public void nextSong() throws JSONException {
-        Log.i("====== DEBUG ", "LOG 5 - WE ARE SETTING NEW RESULTS TO BE DISPLAYED AFTER BUTTON PRESSED ======");
         JSONObject movie = jsonArray.getJSONObject(getCounter());
         String movieName = movie.getString("Name");
         String movieDescription = movie.getString("wTeaser");
         String movieTrailer = movie.getString("yUrl");
         mtext_view_movie_name.setText(movieName);
         // mTextViewResult.setText(movieDescription + movieTrailer + "\n\n");
-        Log.i("====== DEBUG ", "LOG 6 - RESULTS HOPEFULLY DISPLAYED ======");
         playVideo(movieTrailer);
 
     }
@@ -217,5 +207,10 @@ public class MovieRecPage extends AppCompatActivity {
         WebSettings ws = mWebView.getSettings();
         ((WebSettings) ws).setJavaScriptEnabled(true);
         mWebView.loadData(videoStr, "text/html", "utf-8");
+    }
+
+    public void openFavourites(){
+        Intent openFav = new Intent(this, MovieFavourites.class);
+        startActivity(openFav);
     }
 }

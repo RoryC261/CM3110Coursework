@@ -4,58 +4,90 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#FFFFFF"
     tools:context=".MainActivity">
-
-    <TextView
-        android:id="@+id/text_view_result"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textColor="@android:color/black"
-        android:textSize="20sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.233"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.062" />
 
     <Button
         android:id="@+id/button_parse"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Find Movies!"
+        android:layout_width="168dp"
+        android:layout_height="63dp"
+        android:layout_marginTop="47dp"
+        android:background="@drawable/custom_button"
+        android:padding="10dp"
+        android:text="Find New Movies!"
+        android:textAllCaps="false"
+        android:textColor="@color/white"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintHorizontal_bias="0.499"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.655" />
+        app:layout_constraintTop_toBottomOf="@+id/enterMovie"
+        app:layout_constraintVertical_bias="0.0" />
 
     <Button
         android:id="@+id/button_movie_fav"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Go to favourites"
+        android:layout_width="413dp"
+        android:layout_height="49dp"
+        android:background="@drawable/custom_button"
+        android:padding="10dp"
+        android:text="View Your Watch List"
+        android:textAllCaps="false"
+        android:textColor="@color/white"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.941"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.976" />
+        app:layout_constraintVertical_bias="1.0" />
 
     <EditText
         android:id="@+id/enterMovie"
         android:layout_width="218dp"
         android:layout_height="57dp"
         android:ems="10"
-        android:hint="Enter Movie"
+        android:hint="Enter A Movie"
         android:inputType="textPersonName"
+        android:textColor="#010C91"
+        android:textColorHighlight="#000000"
+        android:textColorHint="#000000"
+        android:textColorLink="#010C91"
+        android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.572" />
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fontFamily="sans-serif-condensed"
+        android:gravity="center_vertical|center_horizontal"
+        android:text="FILMIFY"
+        android:textColor="#010C91"
+        android:textSize="96sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.528"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.277" />
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:gravity="center_vertical|center_horizontal"
+        android:text="Effortlessly Find New Movies Similar To The Ones You Love!"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

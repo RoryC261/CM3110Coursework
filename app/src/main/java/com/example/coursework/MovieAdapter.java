@@ -30,11 +30,6 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieHolder>
     public void onBindViewHolder(@NonNull MovieHolder holder, int position) {
         Movie currentMovie = movies.get(position);
         holder.textViewMovieName.setText(currentMovie.movieName);
-        holder.deleteButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-            }
-        });
     }
 
     @Override
@@ -58,7 +53,6 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieHolder>
         public MovieHolder(@NonNull View itemView) {
             super(itemView);
             textViewMovieName = itemView.findViewById(R.id.text_view_movie_name);
-            deleteButton = itemView.findViewById(R.id.button_delete);
         }
     }
 }

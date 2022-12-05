@@ -37,10 +37,11 @@ public class MainActivity extends AppCompatActivity {
         mEnterMovieResult = (EditText)findViewById(R.id.enterMovie);
 
         buttonParse.setOnClickListener(new View.OnClickListener() {
-            // STOP CONTROL Z HERE PLS
             @Override
             public void onClick(View view) {
-                openMovieRec();
+                if (!mEnterMovieResult.getText().toString().equals("")) {
+                    openMovieRec();
+                }
             }
         });
 
@@ -53,7 +54,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void openMovieRec() {
-        Log.i("====== DEBUG ", "LOG 1 - BUTTON LISTENER ======");
         Intent openMovieRec = new Intent(this, MovieRecPage.class);
         openMovieRec.putExtra("user_input", mEnterMovieResult.getText().toString());
         startActivity(openMovieRec);

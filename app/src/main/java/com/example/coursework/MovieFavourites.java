@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.room.Room;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.style.TtsSpan;
 import android.util.Log;
@@ -29,18 +30,38 @@ public class MovieFavourites extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_movie_favourites);
 
+
         RecyclerView recyclerView = findViewById(R.id.recycler_view);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setHasFixedSize(true);
+        Button buttonBackToSearch = findViewById(R.id.button_back_to_search);
+        // Button buttonBackToRec = findViewById(R.id.button_back_to_rec);
 
         MovieAdapter adapter = new MovieAdapter();
         recyclerView.setAdapter(adapter);
+
+        buttonBackToSearch.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                openBackToSearch();
+            }
+        });
+
+        /*
+        buttonBackToRec.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                openBackToRec();
+            }
+        });
+
+         */
 
         MovieViewmodel viewmodel = ViewModelProviders.of(this).get(MovieViewmodel.class);
         viewmodel.getAllMovies().observe(this, new Observer<List<Movie>>() {
             @Override
             public void onChanged(List<Movie> movies) {
-                adapter.setMovies(movies);
+               adapter.setMovies(movies);
             }
         });
 
@@ -56,5 +77,17 @@ public class MovieFavourites extends AppCompatActivity {
                 viewmodel.delete(adapter.getMovieAt(viewHolder.getAdapterPosition()));
             }
         }).attachToRecyclerView(recyclerView);
+
     }
+
+    public void openBackToSearch(){
+        Intent openMain = new Intent(this, MainActivity.class);
+        startActivity(openMain);
+    }
+
+    public void openBackToRec(){
+        Intent openRec = new Intent(this, MovieRecPage.class);
+        startActivity(openRec);
+    }
+
 }
