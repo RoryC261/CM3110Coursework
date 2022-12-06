@@ -82,6 +82,8 @@ public class MovieFavourites extends AppCompatActivity{
             @Override
             public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
                 viewmodel.delete(adapter.getMovieAt(viewHolder.getAdapterPosition()));
+                Log.d("TEST", viewmodel.getAllMovies().toString());
+                Log.d("TEST", "MOVIE DELETED");
             }
 
         }).attachToRecyclerView(recyclerView);

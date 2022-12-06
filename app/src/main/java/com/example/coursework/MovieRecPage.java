@@ -88,7 +88,7 @@ public class MovieRecPage extends AppCompatActivity {
                             buttonBack.setClickable(false);
                             JSONObject jsonObject = response.getJSONObject("Similar");
                             jsonArray = jsonObject.getJSONArray("Results");
-
+                            Log.d("TEST", jsonArray.toString());
                             JSONObject movie = jsonArray.getJSONObject(firstCounter);
                             for (int i = 0; i< movie.length(); i++) {
                                 isFavourited.add(Boolean.FALSE);
@@ -167,10 +167,9 @@ public class MovieRecPage extends AppCompatActivity {
         });
 
         viewmodel.getAllMovies().observe((LifecycleOwner) this, movieList -> {
-            Log.d("Movies", String.valueOf(movieList.size()));
 
             for (Movie movies: movieList){
-                Log.d("Movies", movies.movieName + ", " + movies.movieDescription + ", " + movies.movieUrl);
+                Log.d("TEST", movies.movieName + ", " + movies.movieDescription + ", " + movies.movieUrl);
             }
         });
 
