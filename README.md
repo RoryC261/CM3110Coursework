@@ -22,7 +22,7 @@ Widgets Used:
 - A button was used to allow the user to search for a movie, Using an event listener, the button sends the user inputted movie to the Movie Reccomendation activity aswell as starts it through an Intent when the button is pressed
 - A button was also used to allow the user to navigate to the Movie Favourites Activity
 - Layout Used: Constraint Layout
-- 
+
 ![image](https://user-images.githubusercontent.com/72762899/205932632-22335f43-3299-45c2-92ec-ddc8cc00a13b.png)
 Movie Reccomendation Activity
 Widgets Used:
@@ -31,7 +31,7 @@ Widgets Used:
 - A button was used to add a movie to a users favourites list, this was used as the button can be disabled if a movie is already in their favourites
 - A button was used to allow the user to navigate to both the Movie Search Activity and Movie Favourites Activity
 - A WebView was used to display a video to the user, This was used as it allowed for easy implementation of video playback of any source, in this cause a youtube URL
-
+- Layout Uded: Constraint Layout
 ![image](https://user-images.githubusercontent.com/72762899/205932664-d7d2be16-6b06-4067-a100-aad9a0dc3e5a.png)
 Movie Favourites Activity
 ![image](https://user-images.githubusercontent.com/72762899/205932702-4d00a133-01d1-49fb-9f24-fbb036bf3f71.png)
