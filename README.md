@@ -42,7 +42,14 @@ Key User Functionalities of this App
 - Layout Used: Constraint Layout
 
 ![image](https://user-images.githubusercontent.com/72762899/205932702-4d00a133-01d1-49fb-9f24-fbb036bf3f71.png)
-More Movie Info Activity
+- More Movie Info Activity
+- Widgets Used:
+- A textview was used to display the movie name to the user
+- A Webview was again used to display a video to the user
+- A second textview was used to display a brief movie description to the user
+- A button was used to allow the user to navigate back to the Movie Favourites Activity
+
 ![image](https://user-images.githubusercontent.com/72762899/205932727-02787638-e0c3-4824-9e9f-b98182be26bc.png)
+- This Image shows how a user would navigate through the app between pages
 
 On reflection, I enjoyed the development and implementation of this app and coursework. There were numerous parts which I thought went well, All functionality outlined within the design and thought and thought of whilst planning were managed to successfully be fully implemented. Having all functionalities divided into subtasks from the get-go, it was very easy to work on each part at a time without it impacting the rest of the app’s functionality. This led to very fast and efficient development, especially when creating the database and its surrounding components. As well as this, looking specifically, I thought the implementation of the API went well. I initially had some problems whilst developing this due to some APIs not working in the way I intended too. It also took me significant time to get the API movie recommendation data to display in the format I wanted to, as well as having programming difficulties in getting the data to display as intended, but after fixing these issues I am especially happy with how the Movie recommendation data is displayed. One thing that did not go well was designing the UI, due to time constraints, less time was spent on developing the front end compared to the backend functionality, If this app was to be further developed, a significant amount of time would be spent furthering the user interface. While users can successfully move across the app, it is also through button components, In future I would have liked to use a navigation bar and navigation graphs. Finally, I had mixed opinions on the Android Studio IDE, I found programming especially easy to do with this IDE, thanks to the code completer which finishes lines of code that u were going to type, especially length ones such as event listeners or constructors/getters and setters, However I did experience numerous issues with the Pixel 2 emulator, There were numerous times where it would crash or be unresponsive, even with no errors in code. This would force me to have to wipe all data from the emulator and restart the de, which was very frustrating and time consuming. However, overall, I thought the development of this app was relatively straightforward, thanks to a generally good development environment, as well as a good plan developed before starting the implementation.
