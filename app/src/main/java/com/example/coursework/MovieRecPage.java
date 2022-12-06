@@ -97,6 +97,7 @@ public class MovieRecPage extends AppCompatActivity {
 
                             nextSong();
                         } catch (JSONException e) {
+                            // If No Results are found display error message (input validation)
                             e.printStackTrace();
                             mtext_view_movie_name.setText(":( No results found, Are you sure that's a movie?");
                             buttonBack.setVisibility(View.GONE);

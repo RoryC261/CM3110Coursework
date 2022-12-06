@@ -44,6 +44,7 @@ public class MovieFavourites extends AppCompatActivity{
         MovieAdapter adapter = new MovieAdapter();
         recyclerView.setAdapter(adapter);
 
+        // When pressed, Movie search activity is opened
         buttonBackToSearch.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -69,6 +70,7 @@ public class MovieFavourites extends AppCompatActivity{
             }
         });
 
+        // Android Gesture, detects if user has swiped either left or right, in this case as it is set to 0, user can swipe left or right
         new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(0,
                 ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
             @Override
@@ -76,6 +78,7 @@ public class MovieFavourites extends AppCompatActivity{
                 return false;
             }
 
+            // Deletes item from recylcer view and from database when swiped away
             @Override
             public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
                 viewmodel.delete(adapter.getMovieAt(viewHolder.getAdapterPosition()));
@@ -83,22 +86,23 @@ public class MovieFavourites extends AppCompatActivity{
 
         }).attachToRecyclerView(recyclerView);
 
+        // Detects when an item in the recycler view has been pressed
         adapter.setOnMovieClickListener(new MovieAdapter.OnMovieClickListener() {
             @Override
             public void onMovieClick(Movie movie) {
                 Log.d("DEBUG", "ITEM CLICKED");
-                currentMovie = adapter.getMovie();
+                currentMovie = adapter.getMovie(); // Gets info on movie that was clicked on
                 openMovieInfo();
             }
         });
     }
-
 
     public void openBackToSearch(){
         Intent openMain = new Intent(this, MainActivity.class);
         startActivity(openMain);
     }
 
+    // Opens new info activity, sends data of the selected movie to new activity through an intent
     public void openMovieInfo(){
         Intent openInfo = new Intent(this, MovieInfo.class);
         openInfo.putExtra("MOVIE_NAME", currentMovie.movieName);

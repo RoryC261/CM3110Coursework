@@ -9,6 +9,7 @@ import java.util.List;
 
 import java.util.ArrayList;
 
+// Queries used for getting and fetching/deleting data from database
 @Dao
 public interface MovieDao {
 

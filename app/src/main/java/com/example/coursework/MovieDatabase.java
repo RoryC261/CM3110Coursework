@@ -7,6 +7,7 @@ import androidx.room.Database;
 import androidx.room.Room;
 import androidx.room.RoomDatabase;
 
+// Creates an instance of the database
 @Database(entities = {Movie.class}, version = 1)
 public abstract class MovieDatabase extends RoomDatabase{
     public abstract MovieDao movieDao();

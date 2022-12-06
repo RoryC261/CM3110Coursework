@@ -31,20 +31,23 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        Button buttonParse = findViewById(R.id.button_parse);
+        Button buttonParse = findViewById(R.id.button_parse); // Button user presses to see recommended movies
         Button buttonMovieFav = findViewById(R.id.button_movie_fav);
 
-        mEnterMovieResult = (EditText)findViewById(R.id.enterMovie);
+        mEnterMovieResult = (EditText)findViewById(R.id.enterMovie); // Variable which holds user inputted movie
 
+        // When button is pressed, Movie Recommendation page is opened
         buttonParse.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                // Checks if user has typed something into the search bar
                 if (!mEnterMovieResult.getText().toString().equals("")) {
                     openMovieRec();
                 }
             }
         });
 
+        // When button is pressed, users saved movie favourites activity is opened
         buttonMovieFav.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -53,12 +56,14 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+    // Method which starts activity, as well as sends the user input to new activity
     public void openMovieRec() {
         Intent openMovieRec = new Intent(this, MovieRecPage.class);
         openMovieRec.putExtra("user_input", mEnterMovieResult.getText().toString());
         startActivity(openMovieRec);
     }
 
+    // Method which starts activity
     public void openMovieFav(){
         Intent openMovieFav= new Intent(this, MovieFavourites.class);
         startActivity(openMovieFav);
