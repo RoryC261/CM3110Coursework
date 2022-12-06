@@ -62,6 +62,7 @@ public class MovieFavourites extends AppCompatActivity{
 
          */
 
+
         viewmodel = ViewModelProviders.of(this).get(MovieViewmodel.class);
         viewmodel.getAllMovies().observe(this, new Observer<List<Movie>>() {
             @Override

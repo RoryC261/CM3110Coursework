@@ -65,6 +65,7 @@ public class MovieRecPage extends AppCompatActivity {
         mWebView =(WebView)findViewById(R.id.videoview);
         // mWebView.setBackgroundColor(Color.TRANSPARENT);
 
+        // returns user to Movie Search Page when button is pressed
         buttonBackToSearch.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -72,6 +73,7 @@ public class MovieRecPage extends AppCompatActivity {
             }
         });
 
+        // sends user to favourites page when button is pressed
         buttonGoToFavourites.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -79,17 +81,23 @@ public class MovieRecPage extends AppCompatActivity {
             }
         });
 
+        // JSON Request
         JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, url, null,
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
                         try {
-                            int firstCounter = 0;
-                            buttonBack.setClickable(false);
+                            int firstCounter = 0; // Created a separate counter for first display so forwards and backwards buttons work correctly and to save duplication of code
+
+                            buttonBack.setClickable(false); // Disables option to press button
+
+                            // Gets JSON and creates and Array of dictionaries with movie data
                             JSONObject jsonObject = response.getJSONObject("Similar");
                             jsonArray = jsonObject.getJSONArray("Results");
                             Log.d("TEST", jsonArray.toString());
+
                             JSONObject movie = jsonArray.getJSONObject(firstCounter);
+                            // Created an Arraylist with false values that will each corrospond to a movie
                             for (int i = 0; i< movie.length(); i++) {
                                 isFavourited.add(Boolean.FALSE);
                                 Log.d("DEBUG", String.valueOf(isFavourited.get(i)));
@@ -118,6 +126,7 @@ public class MovieRecPage extends AppCompatActivity {
         buttonNext.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                // Back button will be disabled when at start or array and enabled for every other index
                 try {
                     if (getCounter() < jsonArray.length() - 1) {
                         setCounter(1);
@@ -136,6 +145,7 @@ public class MovieRecPage extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 try {
+                    // Next button will be disabled at end of array and enabled at every other index
                     if (getCounter() > 0) {
                         setCounter(-1);
                         nextSong();
@@ -149,6 +159,7 @@ public class MovieRecPage extends AppCompatActivity {
             }
         });
 
+        // Adds movie data to Room database when favourite button is pressed
         buttonFavourite.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -175,6 +186,7 @@ public class MovieRecPage extends AppCompatActivity {
 
     }
 
+    // Getters and Setters
     private int getCounter() {
         return counter;
     }
@@ -191,13 +203,16 @@ public class MovieRecPage extends AppCompatActivity {
         return isFavourited;
     }
 
+    // Displays next song reccomendation
     public void nextSong() throws JSONException {
         Log.d("DEBUG", String.valueOf(isFavourited.get(getCounter())));
+        // Checks if corresponding element in isFavourited array to movie array is true, if its true this means movie has already been favourited
         if (getIsFavourited().get(getCounter()) == true) {
             getButtonFavourite().setClickable(false);
         } else {
             getButtonFavourite().setClickable(true);
         }
+
         JSONObject movie = jsonArray.getJSONObject(getCounter());
         String movieName = movie.getString("Name");
         String movieDescription = movie.getString("wTeaser");
@@ -213,6 +228,7 @@ public class MovieRecPage extends AppCompatActivity {
         startActivity(openMain);
     }
 
+    // Displays Youtube video of movie trailer
     public void playVideo(String movieTrailer){
         String videoStr = "<html><body>Promo video<br><iframe width=\"420\" height=\"315\" src=\"" + movieTrailer + "\" frameborder=\"0\" allowfullscreen></iframe></body></html>";
         mWebView.setWebViewClient(new WebViewClient() {
