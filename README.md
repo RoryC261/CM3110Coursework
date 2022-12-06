@@ -16,30 +16,30 @@ Key User Functionalities of this App
 -	A user can view and edit their favourites list even without an internet connection
 
 ![image](https://user-images.githubusercontent.com/72762899/205931100-1a67b2d2-9137-455e-ad08-30bbd094287b.png)
-Movie Search Activity
-Widgets Used:
+- Movie Search Activity
+- Widgets Used:
 - A textview was used to allow a user to enter a desired movie, this was used as it allows users to search any movie they would like, and easily has input validation implemented
 - A button was used to allow the user to search for a movie, Using an event listener, the button sends the user inputted movie to the Movie Reccomendation activity aswell as starts it through an Intent when the button is pressed
 - A button was also used to allow the user to navigate to the Movie Favourites Activity
-Layout Used: Constraint Layout
+- Layout Used: Constraint Layout
 
 ![image](https://user-images.githubusercontent.com/72762899/205932632-22335f43-3299-45c2-92ec-ddc8cc00a13b.png)
-Movie Reccomendation Activity
-Widgets Used:
+- Movie Reccomendation Activity
+- Widgets Used:
 - A textview is used to display the name of the reccommended movie to the user
 - Buttons were used to navigate to the next and previous movies, These were used as allowed for easy implementation with no duplication of code
 - A button was used to add a movie to a users favourites list, this was used as the button can be disabled if a movie is already in their favourites
 - A button was used to allow the user to navigate to both the Movie Search Activity and Movie Favourites Activity
 - A WebView was used to display a video to the user, This was used as it allowed for easy implementation of video playback of any source, in this cause a youtube URL
-Layout Used: Constraint Layout
+- Layout Used: Constraint Layout
 
 ![image](https://user-images.githubusercontent.com/72762899/205932664-d7d2be16-6b06-4067-a100-aad9a0dc3e5a.png)
-Movie Favourites Activity
-Widgets Used:
+- Movie Favourites Activity
+- Widgets Used:
 - A RecyclerView was used to display a users favourites list, Each item in the recyclerview was a card view with a textview inside displaying the movie name set in a relative layout
 - A button was used to allow the user navigate back to the Movie Search Page
 - A user can delete movies from their favourites list by using a Swipe mobile specific gesture. Within this implementation, the user is able to swipe lift or left on any item within the recylerview which will in turn delete it from the recyclerview as well as delete that movie from the database
-Layout Used: Constraint Layout
+- Layout Used: Constraint Layout
 
 ![image](https://user-images.githubusercontent.com/72762899/205932702-4d00a133-01d1-49fb-9f24-fbb036bf3f71.png)
 More Movie Info Activity
