@@ -17,6 +17,11 @@ Key User Functionalities of this App
 
 ![image](https://user-images.githubusercontent.com/72762899/205931100-1a67b2d2-9137-455e-ad08-30bbd094287b.png)
 Movie Search Activity
+Widgets Used:
+- A textview was used to allow a user to enter a desired movie, this was used as it allows users to search any movie they would like, and easily has input validation implemented
+- A button was used to allow the user to search for a movie, Using an event listener, the button sends the user inputted movie to the Movie Reccomendation activity aswell as starts it
+- A button was also used to allow the user to navigate to the Movie Favourites Activity
+- Layout Used: Constraint Layout
 ![image](https://user-images.githubusercontent.com/72762899/205932632-22335f43-3299-45c2-92ec-ddc8cc00a13b.png)
 Movie Reccomendation Activity
 ![image](https://user-images.githubusercontent.com/72762899/205932664-d7d2be16-6b06-4067-a100-aad9a0dc3e5a.png)
